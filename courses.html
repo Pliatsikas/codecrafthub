@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeCraftHub: Your Learning Management Platform</title>
+    <style>
+      :root {
+        --primary: #8B5CF6;
+        --primary-dark: #7C3AED;
+        --primary-light: #EDE9FE;
+        --success: #F59E0B;
+        --success-dark: #D97706;
+        --success-light: #FEF3C7;
+        --danger: #EF4444;
+        --danger-dark: #DC2626;
+        --danger-light: #FEE2E2;
+        --bg: #F5F3FF;
+        --surface: #FFFFFF;
+        --text: #1F2937;
+        --text-muted: #6B7280;
+        --border: #E5E7EB;
+        --radius: 12px;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      /* Header */
+      .header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+        line-height: 1.2;
+      }
+
+      .header p {
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      /* Cards / Sections */
+      .card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 1.75rem;
+        margin-bottom: 1.75rem;
+      }
+
+      .card-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--primary-dark);
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Form */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .form-group.full {
+        grid-column: 1 / -1;
+      }
+
+      .form-group label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        padding: 0.6rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        color: var(--text);
+        background: var(--surface);
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 70px;
+      }
+
+      .form-actions {
+        margin-top: 1.25rem;
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.6rem 1.25rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: inherit;
+        cursor: pointer;
+        transition: background 0.15s, opacity 0.15s, transform 0.05s;
+        white-space: nowrap;
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .btn-primary:hover:not(:disabled) {
+        background: var(--primary-dark);
+      }
+
+      .btn-success {
+        background: var(--success);
+        color: #fff;
+      }
+      .btn-success:hover:not(:disabled) {
+        background: var(--success-dark);
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: #fff;
+      }
+      .btn-danger:hover:not(:disabled) {
+        background: var(--danger-dark);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover:not(:disabled) {
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        border-color: var(--primary);
+      }
+
+      .btn-sm {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+      }
+
+      /* Messages */
+      .message {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .message.show {
+        display: flex;
+      }
+
+      .message-success {
+        background: var(--success-light);
+        color: var(--success-dark);
+      }
+
+      .message-error {
+        background: var(--danger-light);
+        color: var(--danger-dark);
+      }
+
+      /* Spinner */
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2.5px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+
+      .spinner-dark {
+        border: 2.5px solid var(--border);
+        border-top-color: var(--primary);
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* Loading overlay for the list */
+      .list-loading {
+        text-align: center;
+        padding: 2.5rem;
+        color: var(--text-muted);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      /* Course cards */
+      .course-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .course-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.25rem 1.5rem;
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        transition: box-shadow 0.15s, transform 0.15s;
+      }
+
+      .course-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-1px);
+      }
+
+      .course-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .course-info h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 0.25rem;
+      }
+
+      .course-info .course-desc {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 0.6rem;
+        word-break: break-word;
+      }
+
+      .course-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .course-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .course-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        flex-shrink: 0;
+      }
+
+      /* Status badges */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .badge-not-started {
+        background: #F3F4F6;
+        color: #6B7280;
+      }
+      .badge-in-progress {
+        background: var(--success-light);
+        color: var(--success-dark);
+      }
+      .badge-completed {
+        background: #D1FAE5;
+        color: #059669;
+      }
+
+      /* Modal */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .modal-overlay.show {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        padding: 1.75rem;
+        width: 100%;
+        max-width: 520px;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.25rem;
+      }
+
+      .modal-header h2 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-dark);
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        line-height: 1;
+        padding: 0.25rem;
+      }
+      .modal-close:hover {
+        color: var(--text);
+      }
+
+      /* Empty state */
+      .empty-state {
+        text-align: center;
+        padding: 2.5rem 1rem;
+        color: var(--text-muted);
+      }
+
+      .empty-state h3 {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+        color: var(--text);
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .course-card {
+          flex-direction: column;
+        }
+        .course-actions {
+          flex-direction: row;
+          width: 100%;
+        }
+        .course-actions .btn {
+          flex: 1;
+        }
+        .header h1 {
+          font-size: 1.5rem;
+        }
+        .container {
+          padding: 1.25rem 1rem 3rem;
+        }
+      }
+    </style>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>CodeCraftHub: Your Learning Management Platform</h1>
+        <p>Track, manage, and complete your learning journey</p>
+      </header>
+
+      <!-- Add Course Form -->
+      <section class="card" id="add-section">
+        <div class="card-title">Add New Course</div>
+        <div id="add-message" class="message"></div>
+        <form id="add-form">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="name">Course Name</label>
+              <input type="text" id="name" name="name" placeholder="e.g. JavaScript Essentials" />
+            </div>
+            <div class="form-group full">
+              <label for="description">Description</label>
+              <textarea id="description" name="description" placeholder="What will you learn?"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="target_date">Target Date</label>
+              <input type="date" id="target_date" name="target_date" />
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="reset" class="btn btn-ghost">Clear</button>
+            <button type="submit" class="btn btn-primary" id="add-btn">
+              <span id="add-btn-text">Add Course</span>
+              <span id="add-btn-spinner" class="spinner" style="display:none;"></span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Course List -->
+      <section class="card">
+        <div class="card-title">Your Courses</div>
+        <div id="list-message" class="message"></div>
+        <div id="course-list-container">
+          <div class="list-loading" id="list-loading">
+            <div class="spinner spinner-dark"></div>
+            <span>Loading courses...</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="edit-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Edit Course</h2>
+          <button type="button" class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div id="edit-message" class="message"></div>
+        <form id="edit-form">
+          <input type="hidden" id="edit-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="edit-name">Course Name</label>
+              <input type="text" id="edit-name" />
+            </div>
+            <div class="form-group full">
+              <label for="edit-description">Description</label>
+              <textarea id="edit-description"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="edit-target_date">Target Date</label>
+              <input type="date" id="edit-target_date" />
+            </div>
+            <div class="form-group">
+              <label for="edit-status">Status</label>
+              <select id="edit-status">
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="edit-cancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="edit-btn">
+              <span id="edit-btn-text">Save Changes</span>
+              <span id="edit-btn-spinner" class="spinner" style="display:none;"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = 'http://localhost:5000/api/courses';
+
+      // ---------- State ----------
+      let courses = [];
+      let currentlyDeletingId = null;
+
+      // ---------- DOM ----------
+      const addForm = document.getElementById('add-form');
+      const addBtn = document.getElementById('add-btn');
+      const addBtnText = document.getElementById('add-btn-text');
+      const addBtnSpinner = document.getElementById('add-btn-spinner');
+      const addMessage = document.getElementById('add-message');
+
+      const listContainer = document.getElementById('course-list-container');
+      const listLoading = document.getElementById('list-loading');
+      const listMessage = document.getElementById('list-message');
+
+      const editModal = document.getElementById('edit-modal');
+      const editForm = document.getElementById('edit-form');
+      const editBtn = document.getElementById('edit-btn');
+      const editBtnText = document.getElementById('edit-btn-text');
+      const editBtnSpinner = document.getElementById('edit-btn-spinner');
+      const editMessage = document.getElementById('edit-message');
+      const modalClose = document.getElementById('modal-close');
+      const editCancel = document.getElementById('edit-cancel');
+
+      // ---------- Helpers ----------
+      function showMessage(el, text, type) {
+        el.textContent = text;
+        el.className = 'message show message-' + type;
+        if (type === 'success') {
+          setTimeout(() => { el.className = 'message'; el.textContent = ''; }, 4000);
+        }
+      }
+
+      function clearMessage(el) {
+        el.className = 'message';
+        el.textContent = '';
+      }
+
+      function setBtnLoading(btn, textEl, spinnerEl, loading, loadingText) {
+        btn.disabled = loading;
+        if (loading) {
+          textEl.textContent = loadingText || '';
+          spinnerEl.style.display = 'inline-block';
+        } else {
+          spinnerEl.style.display = 'none';
+        }
+      }
+
+      function formatDate(dateStr) {
+        if (!dateStr) return '—';
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+
+      function statusBadgeClass(status) {
+        if (status === 'In Progress') return 'badge-in-progress';
+        if (status === 'Completed') return 'badge-completed';
+        return 'badge-not-started';
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str == null ? '' : String(str);
+        return div.innerHTML;
+      }
+
+      async function apiRequest(url, options) {
+        const res = await fetch(url, options);
+        let data;
+        try {
+          data = await res.json();
+        } catch {
+          throw new Error('Received an invalid response from the server.');
+        }
+        if (!res.ok || data.success === false) {
+          const msg = (data && data.error) ? data.error : 'Request failed (HTTP ' + res.status + ')';
+          throw new Error(msg);
+        }
+        return data;
+      }
+
+      function validateForm(name, description, targetDate, status) {
+        if (!name.trim()) return 'Course name is required.';
+        if (!description.trim()) return 'Description is required.';
+        if (!targetDate) return 'Target date is required.';
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) return 'Target date must be in YYYY-MM-DD format.';
+        if (!['Not Started', 'In Progress', 'Completed'].includes(status)) return 'Invalid status.';
+        return null;
+      }
+
+      // ---------- Render ----------
+      function renderCourses() {
+        if (listLoading.parentNode) listLoading.remove();
+
+        if (courses.length === 0) {
+          listContainer.innerHTML =
+            '<div class="empty-state">' +
+              '<h3>No courses yet</h3>' +
+              '<p>Add your first course using the form above.</p>' +
+            '</div>';
+          return;
+        }
+
+        const html = courses.map(function (c) {
+          return (
+            '<div class="course-card" data-id="' + c.id + '">' +
+              '<div class="course-info">' +
+                '<h3>' + escapeHtml(c.name) + '</h3>' +
+                '<p class="course-desc">' + escapeHtml(c.description) + '</p>' +
+                '<div class="course-meta">' +
+                  '<span class="badge ' + statusBadgeClass(c.status) + '">' + escapeHtml(c.status) + '</span>' +
+                  '<span>&#128197; ' + formatDate(c.target_date) + '</span>' +
+                  (c.created_at ? '<span>&#128337; Added ' + formatDate(c.created_at) + '</span>' : '') +
+                '</div>' +
+              '</div>' +
+              '<div class="course-actions">' +
+                '<button class="btn btn-ghost btn-sm" data-action="edit" data-id="' + c.id + '">Edit</button>' +
+                '<button class="btn btn-danger btn-sm" data-action="delete" data-id="' + c.id + '">Remove</button>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join('');
+
+        listContainer.innerHTML = '<div class="course-list">' + html + '</div>';
+      }
+
+      function renderListLoading() {
+        listContainer.innerHTML =
+          '<div class="list-loading" id="list-loading">' +
+            '<div class="spinner spinner-dark"></div>' +
+            '<span>Loading courses...</span>' +
+          '</div>';
+      }
+
+      // ---------- API calls ----------
+      async function fetchCourses() {
+        renderListLoading();
+        clearMessage(listMessage);
+        try {
+          const data = await apiRequest(API_BASE, { method: 'GET' });
+          courses = data.courses || [];
+          renderCourses();
+        } catch (err) {
+          courses = [];
+          listContainer.innerHTML = '';
+          showMessage(listMessage, 'Failed to load courses: ' + err.message, 'error');
+        }
+      }
+
+      async function addCourse(payload) {
+        setBtnLoading(addBtn, addBtnText, addBtnSpinner, true, 'Adding...');
+        clearMessage(addMessage);
+        try {
+          const data = await apiRequest(API_BASE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          courses.unshift(data.course);
+          renderCourses();
+          showMessage(addMessage, 'Course added successfully!', 'success');
+          addForm.reset();
+        } catch (err) {
+          showMessage(addMessage, err.message, 'error');
+        } finally {
+          setBtnLoading(addBtn, addBtnText, addBtnSpinner, false);
+          addBtnText.textContent = 'Add Course';
+        }
+      }
+
+      async function updateCourse(id, payload) {
+        setBtnLoading(editBtn, editBtnText, editBtnSpinner, true, 'Saving...');
+        clearMessage(editMessage);
+        try {
+          const data = await apiRequest(API_BASE + '/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const idx = courses.findIndex(function (c) { return String(c.id) === String(id); });
+          if (idx !== -1) courses[idx] = data.course;
+          renderCourses();
+          closeEditModal();
+          showMessage(listMessage, 'Course updated successfully!', 'success');
+        } catch (err) {
+          showMessage(editMessage, err.message, 'error');
+        } finally {
+          setBtnLoading(editBtn, editBtnText, editBtnSpinner, false);
+          editBtnText.textContent = 'Save Changes';
+        }
+      }
+
+      async function deleteCourse(id) {
+        if (currentlyDeletingId) return;
+        currentlyDeletingId = id;
+        const card = listContainer.querySelector('.course-card[data-id="' + id + '"]');
+        if (card) {
+          const delBtn = card.querySelector('button[data-action="delete"]');
+          if (delBtn) {
+            delBtn.disabled = true;
+            delBtn.innerHTML = '<span class="spinner"></span>';
+          }
+        }
+        clearMessage(listMessage);
+        try {
+          const data = await apiRequest(API_BASE + '/' + id, { method: 'DELETE' });
+          courses = courses.filter(function (c) { return String(c.id) !== String(data.deleted_course.id); });
+          renderCourses();
+          showMessage(listMessage, 'Course removed successfully!', 'success');
+        } catch (err) {
+          showMessage(listMessage, 'Failed to delete: ' + err.message, 'error');
+          renderCourses();
+        } finally {
+          currentlyDeletingId = null;
+        }
+      }
+
+      // ---------- Edit modal ----------
+      function openEditModal(course) {
+        document.getElementById('edit-id').value = course.id;
+        document.getElementById('edit-name').value = course.name || '';
+        document.getElementById('edit-description').value = course.description || '';
+        document.getElementById('edit-target_date').value = course.target_date || '';
+        document.getElementById('edit-status').value = course.status || 'Not Started';
+        clearMessage(editMessage);
+        editModal.classList.add('show');
+        document.getElementById('edit-name').focus();
+      }
+
+      function closeEditModal() {
+        editModal.classList.remove('show');
+        editForm.reset();
+        clearMessage(editMessage);
+      }
+
+      // ---------- Event handlers ----------
+      addForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('description').value;
+        const targetDate = document.getElementById('target_date').value;
+        const status = document.getElementById('status').value;
+
+        const error = validateForm(name, description, targetDate, status);
+        if (error) {
+          showMessage(addMessage, error, 'error');
+          return;
+        }
+        addCourse({ name: name.trim(), description: description.trim(), target_date: targetDate, status: status });
+      });
+
+      editForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const id = document.getElementById('edit-id').value;
+        const name = document.getElementById('edit-name').value;
+        const description = document.getElementById('edit-description').value;
+        const targetDate = document.getElementById('edit-target_date').value;
+        const status = document.getElementById('edit-status').value;
+
+        const error = validateForm(name, description, targetDate, status);
+        if (error) {
+          showMessage(editMessage, error, 'error');
+          return;
+        }
+        updateCourse(id, { name: name.trim(), description: description.trim(), target_date: targetDate, status: status });
+      });
+
+      listContainer.addEventListener('click', function (e) {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-id');
+        const action = btn.getAttribute('data-action');
+
+        if (action === 'edit') {
+          const course = courses.find(function (c) { return String(c.id) === String(id); });
+          if (course) openEditModal(course);
+        } else if (action === 'delete') {
+          if (confirm('Are you sure you want to remove this course?')) {
+            deleteCourse(id);
+          }
+        }
+      });
+
+      modalClose.addEventListener('click', closeEditModal);
+      editCancel.addEventListener('click', closeEditModal);
+      editModal.addEventListener('click', function (e) {
+        if (e.target === editModal) closeEditModal();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && editModal.classList.contains('show')) closeEditModal();
+      });
+
+      // ---------- Init ----------
+      fetchCourses();
+    </script>
+  </body>
+</html>
