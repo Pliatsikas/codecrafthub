@@ -15,6 +15,21 @@ const DATA_FILE = path.join(__dirname, 'courses.json');
 const VALID_STATUSES = ['Not Started', 'In Progress', 'Completed'];
 const COURSE_FIELDS = ['name', 'description', 'target_date', 'status'];
 
+// CORS: allow the frontend (running on a different origin, e.g. Bolt) to call this API
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  // Lets Chrome allow requests from a public site to localhost
+  res.header('Access-Control-Allow-Private-Network', 'true');
+
+  // Browsers send an OPTIONS "preflight" request before POST/PUT/DELETE
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 // Middleware: lets Express read JSON from request bodies (req.body)
 app.use(express.json());
 
